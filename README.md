@@ -42,3 +42,7 @@ It supports **DEV & PROD environments** with fully automated **CI/CD pipelines**
 
 ## Author
 Built as a hands-on production-style Data Engineering project.
+
+## Document
+📘 Detailed project documentation available in `/docs/Azure_Lakehouse_Project_Documentation.docx`
+
