@@ -1,0 +1,18 @@
+name: CD - Deploy Airflow DAGs
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-dags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy DAGs (local Airflow)
+        run: |
+          echo "DAG deployment step placeholder"
+          echo "In real production, this would rsync or SCP DAGs to Airflow"
