@@ -1,0 +1,41 @@
+name: CI - Validate Airflow DAGs
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  airflow-dag-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: Install Airflow (minimal)
+        run: |
+          pip install apache-airflow==2.7.3 \
+            --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.8.txt
+
+      - name: Validate DAG imports
+        env:
+          AIRFLOW_HOME: /tmp/airflow
+        run: |
+          mkdir -p $AIRFLOW_HOME
+          airflow db init
+          python - <<EOF
+          import os, sys
+          dags_path = "airflow/dags"
+          for file in os.listdir(dags_path):
+              if file.endswith(".py"):
+                  print(f"Validating {file}")
+                  __import__(f"airflow.dags.{file[:-3]}")
+          print("✅ All DAGs imported successfully")
+          EOF
