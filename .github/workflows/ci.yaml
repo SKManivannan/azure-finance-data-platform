@@ -19,9 +19,10 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install Airflow (minimal)
+      - name: Install Airflow + Databricks provider
         run: |
           pip install apache-airflow==2.7.3 \
+            apache-airflow-providers-databricks \
             --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.8.txt
 
       - name: Validate DAG imports
